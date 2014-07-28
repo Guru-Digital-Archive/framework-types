@@ -1,0 +1,19 @@
+{
+    "name": "GDM/Framework/Types",
+    "description": "GDM Framework - Types",
+    "authors": [
+        {
+            "name": "Corey Sewell",
+            "email": "corey@gdmedia.tv"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "GDM": "./"
+        }
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*"
+    }
+}
