@@ -1,17 +1,22 @@
 {
     "name": "gdm/framework-types",
     "description": "GDM Framework - Types",
+    "homepage": "https://github.com/guru-digital/framework-types/",
+    "keywords": ["types"],
+    "license": "BSD-3-Clause",
     "authors": [
         {
-            "name": "Corey Sewell",
+            "name": "Corey Sewell - Guru Digital Media",
             "email": "corey@gdmedia.tv"
         }
     ],
+    "support": {
+        "issues": "https://github.com/guru-digital/framework-types/issues"
+    },
     "autoload": {
         "psr-0": {
             "GDM": "./"
         }
-
     },
     "require-dev": {
         "phpunit/phpunit": "4.1.*"
