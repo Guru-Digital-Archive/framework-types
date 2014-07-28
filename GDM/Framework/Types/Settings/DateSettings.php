@@ -8,11 +8,11 @@ class DateSettings {
      *
      * @var \DateTimeZone
      */
-    public $timeZone           = "Pacific/Auckland";
+    public $timeZone           = 'Pacific/Auckland';
     public $dateFromat         = 'd/m/Y';
     public $dateTimeFromat     = 'd/m/Y H:i';
     public $longDateFormat     = 'l jS \of F Y';
-    public $longDateTimeFormat = "l jS \of F Y h:i:s A";
+    public $longDateTimeFormat = 'l jS \of F Y h:i:s A';
 
     /**
      *
