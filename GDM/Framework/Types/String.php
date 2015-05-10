@@ -280,6 +280,26 @@ class String extends Scalar {
     }
 
     /**
+     * Get the longest word in a sring
+     * @return String The longest word in the current string
+     */
+    public function longestWord() {
+        $words = str_word_count($this->returnValue, 1);
+
+        $longestWordLength = 0;
+        $longestWord       = "";
+
+        foreach ($words as $word) {
+            if (strlen($word) > $longestWordLength) {
+                $longestWordLength = strlen($word);
+                $longestWord       = $word;
+            }
+        }
+
+        return self::create($longestWord);
+    }
+
+    /**
      * Return part of a string
      * @link http://php.net/manual/en/function.substr.php
      * @param int $start <p>
@@ -615,16 +635,16 @@ class String extends Scalar {
                                 // 32 bits for "time_low"
                                 mt_rand(0, 0xffff), mt_rand(0, 0xffff),
                                 // 16 bits for "time_mid"
-                                                            mt_rand(0, 0xffff),
+                                mt_rand(0, 0xffff),
                                 // 16 bits for "time_hi_and_version",
                                 // four most significant bits holds version number 4
-                                                                    mt_rand(0, 0x0fff) | 0x4000,
+                                mt_rand(0, 0x0fff) | 0x4000,
                                 // 16 bits, 8 bits for "clk_seq_hi_res",
                                 // 8 bits for "clk_seq_low",
                                 // two most significant bits holds zero and one for variant DCE1.1
-                                                                            mt_rand(0, 0x3fff) | 0x8000,
+                                mt_rand(0, 0x3fff) | 0x8000,
                                 // 48 bits for "node"
-                                                                                    mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+                                mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
                         )
         );
     }
