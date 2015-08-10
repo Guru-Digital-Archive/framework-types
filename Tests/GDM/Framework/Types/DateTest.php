@@ -7,253 +7,271 @@ namespace GDM\Framework\Types;
  */
 class DateTest extends \PHPUnit_Framework_TestCase {
 
-    /**
-     * @var Date
-     */
-    protected $object;
+	/**
+	 * @var Date
+	 */
+	protected $object;
 
-    /**
-     * Sets up the fixture, for example, opens a network connection.
-     * This method is called before a test is executed.
-     */
-    protected function setUp() {
-        $this->object = new Date;
-    }
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 */
+	protected function setUp() {
+		$this->object = new Date;
+	}
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown() {
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 */
+	protected function tearDown() {
+		
+	}
 
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toShortDate
+	 */
+	public function testToShortDate() {
+		$this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateFromat), $this->object->toShortDate());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toShortDate
-     */
-    public function testToShortDate() {
-        $this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateFromat), $this->object->toShortDate());
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toShortDateTime
+	 */
+	public function testToShortDateTime() {
+		$this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateTimeFromat), $this->object->toShortDateTime());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toShortDateTime
-     */
-    public function testToShortDateTime() {
-        $this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateTimeFromat), $this->object->toShortDateTime());
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toLongDate
+	 */
+	public function testToLongDate() {
+		$this->assertEquals(date(Settings\DefaultDateSettings::$defaultLongDateFormat), $this->object->toLongDate());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toLongDate
-     */
-    public function testToLongDate() {
-        $this->assertEquals(date(Settings\DefaultDateSettings::$defaultLongDateFormat), $this->object->toLongDate());
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toLongDateTime
+	 */
+	public function testToLongDateTime() {
+		$this->assertEquals(date(Settings\DefaultDateSettings::$defaultLongDateTimeFormat), $this->object->toLongDateTime());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toLongDateTime
-     */
-    public function testToLongDateTime() {
-        $this->assertEquals(date(Settings\DefaultDateSettings::$defaultLongDateTimeFormat), $this->object->toLongDateTime());
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toMysqlDate
+	 */
+	public function testToMysqlDate() {
+		$this->assertEquals(date("Y-m-d H:i:s"), $this->object->toMysqlDate());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toMysqlDate
-     */
-    public function testToMysqlDate() {
-        $this->assertEquals(date("Y-m-d H:i:s"), $this->object->toMysqlDate());
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::get
+	 */
+	public function testGet() {
+		$this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateTimeFromat), $this->object->get());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::get
-     */
-    public function testGet() {
-        $this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateTimeFromat), $this->object->get());
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::fromDate
+	 */
+	public function testFromDate() {
+		$inDate	 = '01/01/1970 12:30';
+		$dateObj = Date::fromDate($inDate);
+		$this->assertNotFalse($dateObj);
+		$outDate = $dateObj->toShortDateTime();
+		$this->assertEquals($inDate, $outDate);
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::fromDate
-     */
-    public function testFromDate() {
-        $inDate  = '01/01/1970 12:30';
-        $dateObj = Date::fromDate($inDate);
-        $this->assertNotFalse($dateObj);
-        $outDate = $dateObj->toShortDateTime();
-        $this->assertEquals($inDate, $outDate);
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::fromMySqlDate
+	 * @todo   Implement testFromMySqlDate().
+	 */
+	public function testFromMySqlDate() {
+		$this->assertEquals('01/01/1970 12:30', Date::fromMySqlDate('1970-01-01 12:30:00')->toShortDateTime());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::fromMySqlDate
-     * @todo   Implement testFromMySqlDate().
-     */
-    public function testFromMySqlDate() {
-        $this->assertEquals('01/01/1970 12:30', Date::fromMySqlDate('1970-01-01 12:30:00')->toShortDateTime());
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::formatTimestamp
+	 * @todo   Implement testFormatTimestamp().
+	 */
+	public function testFormatTimestamp() {
+		$this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateTimeFromat), Date::formatTimestamp());
+		$this->assertEquals('01/01/1970 12:30', Date::formatTimestamp(45000));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::formatTimestamp
-     * @todo   Implement testFormatTimestamp().
-     */
-    public function testFormatTimestamp() {
-        $this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateTimeFromat), Date::formatTimestamp());
-        $this->assertEquals('01/01/1970 12:30', Date::formatTimestamp(45000));
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::mysqlToTimestamp
+	 * @covers GDM\Framework\Types\Date::createFromFormat
+	 */
+	public function testMysqlToTimestamp() {
+		$settings = new Settings\DateSettings("Pacific/Auckland");
+		$this->assertEquals(1800, Date::mysqlToTimestamp('1970-01-01 12:30:00', $settings));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::mysqlToTimestamp
-     * @covers GDM\Framework\Types\Date::createFromFormat
-     */
-    public function testMysqlToTimestamp() {
-        $settings = new Settings\DateSettings("Pacific/Auckland");
-        $this->assertEquals(1800, Date::mysqlToTimestamp('1970-01-01 12:30:00', $settings));
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::dateTimeToMysql
+	 * @covers GDM\Framework\Types\Date::createFromFormat
+	 */
+	public function testDateTimeToMysql() {
+		$this->assertEquals('1970-01-01 12:30:00', Date::dateTimeToMysql('01/01/1970 12:30'));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::dateTimeToMysql
-     * @covers GDM\Framework\Types\Date::createFromFormat
-     */
-    public function testDateTimeToMysql() {
-        $this->assertEquals('1970-01-01 12:30:00', Date::dateTimeToMysql('01/01/1970 12:30'));
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::mysqlToDateTime
+	 * @covers GDM\Framework\Types\Date::createFromFormat
+	 */
+	public function testMysqlToDateTime() {
+		$this->assertEquals('01/01/1970 12:30', Date::mysqlToDateTime('1970-01-01 12:30:00'));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::mysqlToDateTime
-     * @covers GDM\Framework\Types\Date::createFromFormat
-     */
-    public function testMysqlToDateTime() {
-        $this->assertEquals('01/01/1970 12:30', Date::mysqlToDateTime('1970-01-01 12:30:00'));
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::getDaysDiff
+	 */
+	public function testGetDaysDiff() {
+		$this->assertEquals('4', Date::getDaysDiff('01/01/1970', '05/01/1970'));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::getDaysDiff
-     */
-    public function testGetDaysDiff() {
-        $this->assertEquals('4', Date::getDaysDiff('01/01/1970', '05/01/1970'));
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::roundToDay
+	 */
+	public function testRoundToDay() {
+		$this->assertEquals(0, Date::roundToDay(4500));
+		$this->assertEquals(946684800, Date::roundToDay(946729800));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::roundToDay
-     */
-    public function testRoundToDay() {
-        $this->assertEquals(0, Date::roundToDay(4500));
-        $this->assertEquals(946684800, Date::roundToDay(946729800));
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::create
+	 * @todo   Implement testCreate().
+	 */
+	public function testCreate() {
+		$this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateFromat), Date::create()->toShortDate());
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::create
-     * @todo   Implement testCreate().
-     */
-    public function testCreate() {
-        $this->assertEquals(date(Settings\DefaultDateSettings::$defaultDateFromat), Date::create()->toShortDate());
-    }
-
-    /**
-     * @covers GDM\Framework\Types\Date::createFromFormat
-     * @todo   Implement testCreateFromFormat().
-     */
+	/**
+	 * @covers GDM\Framework\Types\Date::createFromFormat
+	 * @todo   Implement testCreateFromFormat().
+	 */
 //    public function testCreateFromFormat() {
 //        $this->assertEquals(date("Y-m-d H:i:s"), Date::cre);
 //    }
 
-    /**
-     * @covers GDM\Framework\Types\Date::isTimezoneInDST
-     * @todo   Doesnt really rest if its accurate?
-     */
-    public function testIsTimezoneInDST() {
-        $tz    = new \DateTimeZone("Pacific/Auckland");
-        $trans = $tz->getTransitions();
-        $res   = ((count($trans) && $trans[count($trans) - 1]['ts'] > time()));
-        $this->assertEquals($res, Date::isTimezoneInDST($tz));
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::isTimezoneInDST
+	 * @todo   Doesnt really rest if its accurate?
+	 */
+	public function testIsTimezoneInDST() {
+		$tz		 = new \DateTimeZone("Pacific/Auckland");
+		$trans	 = $tz->getTransitions();
+		$res	 = ((count($trans) && $trans[count($trans) - 1]['ts'] > time()));
+		$this->assertEquals($res, Date::isTimezoneInDST($tz));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::daysOfTheWeek
-     * @todo   Implement testDaysOfTheWeek().
-     */
-    public function testDaysOfTheWeek() {
-// l will return full names eg Monday, N
-        $lRes = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-        $NRes = ["1", "2", "3", "4", "5", "6", "7"];
+	/**
+	 * @covers GDM\Framework\Types\Date::daysOfTheWeek
+	 * @todo   Implement testDaysOfTheWeek().
+	 */
+	public function testDaysOfTheWeek() {
+		$lRes	 = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+		$NRes	 = ["1", "2", "3", "4", "5", "6", "7"];
 
-        $this->assertEquals($lRes, Date::daysOfTheWeek('Monday', "l"));
-        $this->assertEquals($NRes, Date::daysOfTheWeek('Monday', "N"));
-    }
+		$this->assertEquals($lRes, Date::daysOfTheWeek('Monday', "l"));
+		$this->assertEquals($NRes, Date::daysOfTheWeek('Monday', "N"));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::monthsOfTheYear
-     * @todo   Implement testMonthsOfTheYear().
-     */
-    public function testMonthsOfTheYear() {
-        $FRes = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        $nRes = ['1', "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+	/**
+	 * @covers GDM\Framework\Types\Date::monthsOfTheYear
+	 * @todo   Implement testMonthsOfTheYear().
+	 */
+	public function testMonthsOfTheYear() {
+		$FRes	 = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		$nRes	 = ['1', "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
-        $this->assertEquals($FRes, Date::monthsOfTheYear("F"));
-        $this->assertEquals($nRes, Date::monthsOfTheYear("n"));
-    }
+		$this->assertEquals($FRes, Date::monthsOfTheYear("F"));
+		$this->assertEquals($nRes, Date::monthsOfTheYear("n"));
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toBoolean
-     * @todo   Implement testToBoolean().
-     */
-    public function testToBoolean() {
+	/**
+	 * @covers GDM\Framework\Types\Date::toBoolean
+	 * @todo   Implement testToBoolean().
+	 */
+	public function testToBoolean() {
 // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toInteger
-     * @todo   Implement testToInteger().
-     */
-    public function testToInteger() {
-// Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toInteger
+	 * @todo   Implement testToInteger().
+	 */
+	public function testToInteger() {
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toDouble
-     * @todo   Implement testToDouble().
-     */
-    public function testToDouble() {
-// Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toDouble
+	 * @todo   Implement testToDouble().
+	 */
+	public function testToDouble() {
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toString
-     * @todo   Implement testToString().
-     */
-    public function testToString() {
-// Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toString
+	 * @todo   Implement testToString().
+	 */
+	public function testToString() {
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::toArray
-     * @todo   Implement testToArray().
-     */
-    public function testToArray() {
-// Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::toArray
+	 * @todo   Implement testToArray().
+	 */
+	public function testToArray() {
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
 
-    /**
-     * @covers GDM\Framework\Types\Date::__toString
-     * @todo   Implement test__toString().
-     */
-    public function test__toString() {
-// Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+	/**
+	 * @covers GDM\Framework\Types\Date::__toString
+	 * @todo   Implement test__toString().
+	 */
+	public function test__toString() {
+		$this->markTestIncomplete(
+				'This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @covers GDM\Framework\Types\Date::isAfter)
+	 * @todo   Implement testToArray().
+	 */
+	public function testIsAfter() {
+		$after	 = \GDM\Framework\Types\Date::createFromFormat("H:i", "20:00");
+		$before	 = \GDM\Framework\Types\Date::createFromFormat("H:i", "08:00");
+
+		$this->assertTrue($after->isAfter($before));
+		$this->assertFalse($before->isAfter($after));
+	}
+
+	/**
+	 * @covers GDM\Framework\Types\Date::isBefore
+	 * @todo   Implement testToArray().
+	 */
+	public function testIsBefore() {
+		$after	 = \GDM\Framework\Types\Date::createFromFormat("H:i", "20:00");
+		$before	 = \GDM\Framework\Types\Date::createFromFormat("H:i", "08:00");
+
+		$this->assertFalse($after->isBefore($before));
+		$this->assertTrue($before->isBefore($after));
+	}
 
 }
