@@ -92,6 +92,15 @@ class String extends Scalar {
     }
 
     /**
+     * Checks if this string is a valid float
+     * @link http://www.php.net/manual/en/filter.filters.validate.php#FILTER_VALIDATE_FLOAT
+     * @return $this
+     */
+    public function isFloat() {
+        return filter_var($this->returnValue, FILTER_VALIDATE_FLOAT) !== false;
+    }
+    
+    /**
      * Strip all linebreack characters from this string
      * @param strig $replacement [optional] <p>
      * Optionally, replace linebreaks with the character
