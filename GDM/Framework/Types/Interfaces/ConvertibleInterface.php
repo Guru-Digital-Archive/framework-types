@@ -2,7 +2,8 @@
 
 namespace GDM\Framework\Types\Interfaces;
 
-interface ConvertibleInterface {
+interface ConvertibleInterface
+{
 
     /**
      * @return boolean

@@ -7,8 +7,8 @@ namespace GDM\Framework\Types;
  *
  * @author Corey Sewell <corey@gdmedia.tv>
  */
-class String extends Scalar {
-
+class String extends Scalar
+{
     protected $falseStrings = ["off", "false", "no", "0", "zero"];
     protected $lineBreaks   = ["\r\n", "\r", "\n"];
 
@@ -23,12 +23,13 @@ class String extends Scalar {
      * </p>
      * @return self
      */
-    function clean($separator = '-', $length = -1) {
+    function clean($separator = '-', $length = -1)
+    {
         // replace non alphanumeric and non underscore charachters by separator
         $this->replace('/[^a-z0-9]/i', $separator);
         if (!empty($separator)) {
             // replace multiple occurences of separator by one instance
-            $this->replace('/' . preg_quote($separator) . '[' . preg_quote($separator) . ']*/', $separator);
+            $this->replace('/'.preg_quote($separator).'['.preg_quote($separator).']*/', $separator);
         }
         // cut off to maximum length
         if ($length > -1 && $this->length() > $length) {
@@ -50,7 +51,8 @@ class String extends Scalar {
      * </p>
      * @return boolean true if matched false otherwise.
      */
-    public function compareTo($str2, $caseSensitive = true) {
+    public function compareTo($str2, $caseSensitive = true)
+    {
         $str2   = $caseSensitive ? $str2 : strtolower($str2);
         $string = $caseSensitive ? $this->returnValue : strtolower($this->returnValue);
         return ($string == $str2);
@@ -66,7 +68,8 @@ class String extends Scalar {
      * </p>
      * @return boolean true if needle is found in this string.
      */
-    public function contains($needle, $caseSensitive = true) {
+    public function contains($needle, $caseSensitive = true)
+    {
         $needle = $caseSensitive ? $needle : strtolower($needle);
         $string = $caseSensitive ? $this->returnValue : strtolower($this->returnValue);
         return (!(strpos($string, $needle) === false));
@@ -77,7 +80,8 @@ class String extends Scalar {
      * @link http://php.net/manual/en/function.strtolower.php
      * @return $this
      */
-    public function toLowerCase() {
+    public function toLowerCase()
+    {
         $this->returnValue = strtolower($this->returnValue);
         return $this;
     }
@@ -87,7 +91,8 @@ class String extends Scalar {
      * @link http://www.php.net/manual/en/filter.filters.validate.php#FILTER_VALIDATE_INT
      * @return $this
      */
-    public function isInt() {
+    public function isInt()
+    {
         return filter_var($this->returnValue, FILTER_VALIDATE_INT) !== false;
     }
 
@@ -96,10 +101,11 @@ class String extends Scalar {
      * @link http://www.php.net/manual/en/filter.filters.validate.php#FILTER_VALIDATE_FLOAT
      * @return $this
      */
-    public function isFloat() {
+    public function isFloat()
+    {
         return filter_var($this->returnValue, FILTER_VALIDATE_FLOAT) !== false;
     }
-    
+
     /**
      * Strip all linebreack characters from this string
      * @param strig $replacement [optional] <p>
@@ -107,7 +113,8 @@ class String extends Scalar {
      * </p>
      * @return self
      */
-    public function stripLineBreak($replacement = '') {
+    public function stripLineBreak($replacement = '')
+    {
         $this->returnValue = str_replace($this->lineBreaks, $replacement, $this->returnValue);
         return $this;
     }
@@ -123,7 +130,8 @@ class String extends Scalar {
      * </p>
      * @return self
      */
-    public function trim($characterMask = " \t\n\r\0\x0B") {
+    public function trim($characterMask = " \t\n\r\0\x0B")
+    {
         $this->returnValue = trim($this->returnValue, $characterMask);
         return $this;
     }
@@ -154,7 +162,8 @@ class String extends Scalar {
      *
      * @return self
      */
-    public function leftTrim($characterMask = " \t\n\r\0\x0B") {
+    public function leftTrim($characterMask = " \t\n\r\0\x0B")
+    {
         $this->returnValue = ltrim($this->returnValue, $characterMask);
         return $this;
     }
@@ -171,7 +180,8 @@ class String extends Scalar {
      *
      * @return self
      */
-    public function rightTrim($characterMask = " \t\n\r\0\x0B") {
+    public function rightTrim($characterMask = " \t\n\r\0\x0B")
+    {
         $this->returnValue = rtrim($this->returnValue, $characterMask);
         return $this;
     }
@@ -184,8 +194,9 @@ class String extends Scalar {
      *
      * @return self
      */
-    public function splitByCaps($seperator = ' ') {
-        $this->returnValue = preg_replace('/(?<!^)((?<![[:upper:]])[[:upper:]]|[[:upper:]](?![[:upper:]]))/', $seperator . '$1', $this->returnValue);
+    public function splitByCaps($seperator = ' ')
+    {
+        $this->returnValue = preg_replace('/(?<!^)((?<![[:upper:]])[[:upper:]]|[[:upper:]](?![[:upper:]]))/', $seperator.'$1', $this->returnValue);
         return $this;
     }
 
@@ -194,7 +205,8 @@ class String extends Scalar {
      * @link http://php.net/manual/en/function.ucwords.php
      * @return string
      */
-    public function upperCaseWords() {
+    public function upperCaseWords()
+    {
         $this->returnValue = ucwords($this->returnValue);
         return $this;
     }
@@ -204,7 +216,8 @@ class String extends Scalar {
      * @param string $needle
      * @return bool
      */
-    public function startsWith($needle) {
+    public function startsWith($needle)
+    {
         return strncmp($this->returnValue, $needle, strlen($needle)) == 0;
     }
 
@@ -213,7 +226,8 @@ class String extends Scalar {
      * @param string $needle
      * @return bool
      */
-    public function endsWith($needle) {
+    public function endsWith($needle)
+    {
         return substr($this->returnValue, -strlen($needle)) === $needle;
     }
 
@@ -224,7 +238,8 @@ class String extends Scalar {
      * </p>
      * @return bool
      */
-    public function isEmail($checkDNS = true) {
+    public function isEmail($checkDNS = true)
+    {
         $isValid = filter_var($this->returnValue, FILTER_VALIDATE_EMAIL) !== false;
         if ($isValid && $checkDNS) {
             $domain  = substr(strrchr($this->returnValue, "@"), 1);
@@ -248,14 +263,15 @@ class String extends Scalar {
      * </p>
      * @return bool
      */
-    public function neatTruncate($length, $marker = '...') {
+    public function neatTruncate($length, $marker = '...')
+    {
         $length = $length - (strlen($marker));
         $len    = $this->length();
         if ($len > $length) {
             $matches           = array();
-            preg_match('/(.{' . $length . '}.*?)\b/', $this->returnValue, $matches);
+            preg_match('/(.{'.$length.'}.*?)\b/', $this->returnValue, $matches);
             $result            = end($matches);
-            $this->returnValue = rtrim($result) . $marker;
+            $this->returnValue = rtrim($result).$marker;
         }
         return $this;
     }
@@ -270,9 +286,10 @@ class String extends Scalar {
      * @param string $marker [optional]  <p>
      * @return self
      */
-    public function truncate($length, $marker = '...') {
+    public function truncate($length, $marker = '...')
+    {
         if ($this->length() > $length) {
-            $this->returnValue = substr($this->returnValue, 0, ($length - strlen($marker))) . $marker;
+            $this->returnValue = substr($this->returnValue, 0, ($length - strlen($marker))).$marker;
         }
 
         return $this;
@@ -284,7 +301,8 @@ class String extends Scalar {
      * @return int The length of the <i>string</i> on success,
      * and 0 if the <i>string</i> is empty.
      */
-    public function length() {
+    public function length()
+    {
         return strlen($this->returnValue);
     }
 
@@ -292,7 +310,8 @@ class String extends Scalar {
      * Get the longest word in a sring
      * @return String The longest word in the current string
      */
-    public function longestWord() {
+    public function longestWord()
+    {
         $words = str_word_count($this->returnValue, 1);
 
         $longestWordLength = 0;
@@ -370,7 +389,8 @@ class String extends Scalar {
      * </code>
      * @return self
      */
-    public function subString($start, $length = null) {
+    public function subString($start, $length = null)
+    {
         $length            = is_null($length) ? $this->length() : $length;
         $this->returnValue = substr($this->returnValue, $start, $length);
         return $this;
@@ -395,7 +415,8 @@ class String extends Scalar {
      * <p>
      * Returns <b>FALSE</b> if the needle was not found.
      */
-    public function indexOf($needle, $offset = 0) {
+    public function indexOf($needle, $offset = 0)
+    {
         return strpos($this->returnValue, $needle, $offset);
     }
 
@@ -404,7 +425,8 @@ class String extends Scalar {
      *
      * @return self
      */
-    public function escapeDblQuotes() {
+    public function escapeDblQuotes()
+    {
         $this->returnValue = str_replace('"', '\\"', $this->returnValue);
         return $this;
     }
@@ -414,7 +436,8 @@ class String extends Scalar {
      *
      * @return self
      */
-    public function stripNonNums() {
+    public function stripNonNums()
+    {
         return $this->replace('#\D*?(\d+(\.\d+)?)\D*#', '$1');
     }
 
@@ -490,7 +513,8 @@ class String extends Scalar {
      *
      * @return self
      */
-    public function replace($pattern, $replacement, $limit = -1, &$count = null) {
+    public function replace($pattern, $replacement, $limit = -1, &$count = null)
+    {
         $this->returnValue = preg_replace($pattern, $replacement, $this->returnValue, $limit, $count);
         return $this;
     }
@@ -511,11 +535,11 @@ class String extends Scalar {
      * </p>
      * @return self
      */
-    public function simpleReplace($search, $replace, &$count = null) {
+    public function simpleReplace($search, $replace, &$count = null)
+    {
         $this->returnValue = str_replace($search, $replace, $this->returnValue, $count);
         return $this;
     }
-
     /**
      *
      */
@@ -526,7 +550,8 @@ class String extends Scalar {
      * @param string $replacement the string to replace non alpha numeric characters
      * @return self
      */
-    public function stripSpecialChars($replacement) {
+    public function stripSpecialChars($replacement)
+    {
         $this->returnValue = preg_replace('/[^A-Za-z0-9]/', $replacement, $this->returnValue);
         $this->returnValue = preg_replace('/ +/', $replacement, $this->returnValue);
         return $this;
@@ -563,7 +588,8 @@ class String extends Scalar {
      * returned, otherwise an array containing
      * <i>string</i> will be returned.
      */
-    public function split($delimiter, $limit = null) {
+    public function split($delimiter, $limit = null)
+    {
         return is_null($limit) ? explode($delimiter, $this->returnValue) : explode($delimiter, $this->returnValue, $limit);
     }
 
@@ -572,7 +598,8 @@ class String extends Scalar {
      * @link http://php.net/manual/en/function.strtoupper.php
      * @return self
      */
-    public function toUpperCase() {
+    public function toUpperCase()
+    {
         $this->returnValue = strtoupper($this->returnValue);
 
         return $this;
@@ -582,17 +609,19 @@ class String extends Scalar {
      * Converts this string to a boolean.
      * @return self
      */
-    public function toBool() {
+    public function toBool()
+    {
         return (!is_null($this->returnValue)) &&
-                (!empty($this->returnValue)) &&
-                (!in_array(strtolower($this->returnValue), $this->falseStrings));
+            (!empty($this->returnValue)) &&
+            (!in_array(strtolower($this->returnValue), $this->falseStrings));
     }
 
     /**
      * Returns the string in reverse order.
      * @return self
      */
-    public function reverse() {
+    public function reverse()
+    {
         $this->returnValue = implode(array_reverse(preg_split('//', $this->returnValue, -1)));
         return $this;
     }
@@ -601,7 +630,8 @@ class String extends Scalar {
      * Returns an MD5 hash of the string.
      * @return string The md5 hash.
      */
-    public function md5() {
+    public function md5()
+    {
         return md5($this->returnValue);
     }
 
@@ -615,7 +645,8 @@ class String extends Scalar {
      * Current support mimetypes are text/html, text/javascript, text/css and application/x-javascript </p>
      * @return self
      */
-    public function toComment($mime) {
+    public function toComment($mime)
+    {
         $commentStart = "<!--";
         $commentEnd   = "-->";
         switch ($mime) {
@@ -628,7 +659,7 @@ class String extends Scalar {
             default:
                 break;
         }
-        $this->returnValue = $commentStart . " " . $this->returnValue . " " . $commentEnd;
+        $this->returnValue = $commentStart." ".$this->returnValue." ".$commentEnd;
         return $this;
     }
 
@@ -637,24 +668,25 @@ class String extends Scalar {
      * @see http://www.php.net/manual/en/function.uniqid.php#94959
      * @return static
      */
-    public static function createUUID() {
+    public static function createUUID()
+    {
         return self::create(
-                        sprintf(
-                                '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-                                // 32 bits for "time_low"
-                                mt_rand(0, 0xffff), mt_rand(0, 0xffff),
-                                // 16 bits for "time_mid"
-                                mt_rand(0, 0xffff),
-                                // 16 bits for "time_hi_and_version",
-                                // four most significant bits holds version number 4
-                                mt_rand(0, 0x0fff) | 0x4000,
-                                // 16 bits, 8 bits for "clk_seq_hi_res",
-                                // 8 bits for "clk_seq_low",
-                                // two most significant bits holds zero and one for variant DCE1.1
-                                mt_rand(0, 0x3fff) | 0x8000,
-                                // 48 bits for "node"
-                                mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
-                        )
+                sprintf(
+                    '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+                    // 32 bits for "time_low"
+                    mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+                    // 16 bits for "time_mid"
+                                                mt_rand(0, 0xffff),
+                    // 16 bits for "time_hi_and_version",
+                    // four most significant bits holds version number 4
+                                                        mt_rand(0, 0x0fff) | 0x4000,
+                    // 16 bits, 8 bits for "clk_seq_hi_res",
+                    // 8 bits for "clk_seq_low",
+                    // two most significant bits holds zero and one for variant DCE1.1
+                                                                mt_rand(0, 0x3fff) | 0x8000,
+                    // 48 bits for "node"
+                                                                        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+                )
         );
     }
 
@@ -664,7 +696,8 @@ class String extends Scalar {
      * </p>
      * @return self
      */
-    public static function createRandomAlphaNumeric($length = 8) {
+    public static function createRandomAlphaNumeric($length = 8)
+    {
         $chars  = array("abcdefghijklmnpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", "123456789");
         $count  = array((strlen($chars[0]) - 1), (strlen($chars[1]) - 1));
         $prefix = "";
@@ -675,43 +708,50 @@ class String extends Scalar {
         return self::create($prefix);
     }
 
-    function fromObject($value) {
+    function fromObject($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = (string) (method_exists($value, "__toString") ? $value : get_class($value));
         return $this;
     }
 
-    function fromBool($value) {
+    function fromBool($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = $value ? "true" : "false";
         return $this;
     }
 
-    function fromInt($value) {
+    function fromInt($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = (string) $value;
         return $this;
     }
 
-    function fromDouble($value) {
+    function fromDouble($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = (string) $value;
         return $this;
     }
 
-    function fromString($value) {
+    function fromString($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = (string) $value;
         return $this;
     }
 
-    function fromResource($value) {
+    function fromResource($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = stream_get_contents($value);
         return $this;
     }
 
-    protected function clear() {
+    protected function clear()
+    {
         $this->orignalValue = $this->returnValue  = "";
         return $this;
     }
@@ -720,8 +760,8 @@ class String extends Scalar {
      * Get the resulting string
      * @return string
      */
-    public function get() {
+    public function get()
+    {
         return $this->returnValue;
     }
-
 }

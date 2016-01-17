@@ -7,8 +7,8 @@ namespace GDM\Framework\Types;
  * ----
  * @author Corey Sewell <corey@gdmedia.tv>
  */
-class Url extends Scalar implements \ArrayAccess {
-
+class Url extends Scalar implements \ArrayAccess
+{
     public $scheme       = null;
     public $host         = null;
     public $port         = null;
@@ -24,7 +24,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return $this
      */
-    private function parse() {
+    private function parse()
+    {
         $this->parameters   = [];
         $this->pathSegments = [];
         $parsedUrl          = parse_url($this->returnValue);
@@ -48,7 +49,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @param string $key The key of the parameter value to return
      * @return mixed The value of <i>$key</i> or null if its not set
      */
-    public function __get($key) {
+    public function __get($key)
+    {
         return isset($this->parameters[$key]) ? $this->parameters[$key] : null;
     }
 
@@ -60,7 +62,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @param string $key The key of the parameter value to set
      * @param string $value The value to set for the parameter
      */
-    public function __set($key, $value) {
+    public function __set($key, $value)
+    {
         if (is_bool($value)) {
             $value = $value ? 'true' : 'false';
         } else if (is_array($value) || is_object($value)) {
@@ -77,7 +80,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @param string $key The key of the parameter value to test
      * @return bool true if property exists and has value other than null, false otherwise.
      */
-    public function __isset($key) {
+    public function __isset($key)
+    {
         return isset($this->parameters[$key]);
     }
 
@@ -89,7 +93,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @param string $key The key of the parameter remove
      *
      */
-    public function __unset($key) {
+    public function __unset($key)
+    {
         if (isset($this->parameters[$key])) {
             unset($this->parameters[$key]);
         }
@@ -115,7 +120,8 @@ class Url extends Scalar implements \ArrayAccess {
      * is greater than <i>str2</i>, and 0 if they are
      * equal.
      */
-    public function compareTo($url, $caseSensitive = true, $includeQuery = false, $ignoreSpecialChars = false) {
+    public function compareTo($url, $caseSensitive = true, $includeQuery = false, $ignoreSpecialChars = false)
+    {
         /* @var $urlObj Url */
         $urlObj  = $url instanceof Url ? $url : self::create($url)->decodePath();
         /* @var $urlObj2 Url */
@@ -138,7 +144,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @link http://php.net/manual/en/function.rawurldecode.php
      * @return $this
      */
-    public function decodePath() {
+    public function decodePath()
+    {
         array_walk($this->pathSegments, function(&$val) {
             $val = rawurldecode($val);
         });
@@ -151,7 +158,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @link http://php.net/manual/en/function.rawurlencode.php
      * @return $this
      */
-    public function encodePath() {
+    public function encodePath()
+    {
         array_walk($this->pathSegments, function(&$val) {
             $val = rawurlencode($val);
         });
@@ -164,7 +172,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @param object $value
      * @return $this
      */
-    function fromObject($value) {
+    function fromObject($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = (string) (method_exists($value, '__toString') ? $value : null);
         return $this->parse();
@@ -176,7 +185,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @param string $value
      * @return $this
      */
-    function fromString($value) {
+    function fromString($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = (string) $value;
         return $this->parse();
@@ -188,7 +198,8 @@ class Url extends Scalar implements \ArrayAccess {
      * @param resource $value
      * @return $this
      */
-    function fromResource($value) {
+    function fromResource($value)
+    {
         $this->clear();
         $this->orignalValue = $this->returnValue  = stream_get_contents($value);
         return $this->parse();
@@ -199,7 +210,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return $this
      */
-    protected function clear() {
+    protected function clear()
+    {
         $this->scheme       = null;
         $this->host         = null;
         $this->port         = null;
@@ -216,7 +228,8 @@ class Url extends Scalar implements \ArrayAccess {
      * Get the resulting string
      * @return string
      */
-    public function get() {
+    public function get()
+    {
         return $this->toString();
     }
 
@@ -232,7 +245,8 @@ class Url extends Scalar implements \ArrayAccess {
      * <p>
      * The return value will be casted to boolean if non-boolean was returned.
      */
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return isset($this->pathSegments[$offset]);
     }
 
@@ -245,7 +259,8 @@ class Url extends Scalar implements \ArrayAccess {
      * </p>
      * @return string|null The value of the path segement at the give offset or null if not set.
      */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return isset($this->pathSegments[$offset]) ? $this->pathSegments[$offset] : null;
     }
 
@@ -260,7 +275,8 @@ class Url extends Scalar implements \ArrayAccess {
      * </p>
      * @return void No value is returned.
      */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         if (is_null($offset)) {
             $this->pathSegments[] = $value;
         } else {
@@ -276,7 +292,8 @@ class Url extends Scalar implements \ArrayAccess {
      * </p>
      * @return void No value is returned.
      */
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         unset($this->pathSegments[$offset]);
     }
 
@@ -293,7 +310,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return string|false The value of the segement at the given index or false if not set
      */
-    public function getSegment($segment = 0) {
+    public function getSegment($segment = 0)
+    {
         $result = null;
         if ($segment == "first") {
             $result = current($this->pathSegments);
@@ -311,21 +329,22 @@ class Url extends Scalar implements \ArrayAccess {
      * @param bool $includeQuery <p>Include the query string in the result</p>
      * @return Url The URL of the current request or cli if called from the command line
      */
-    public function current($includeQuery = true) {
+    public function current($includeQuery = true)
+    {
         $url = "";
         if (!$this->serverVars && php_sapi_name() == 'cli') {
             $url = "cli";
         } else {
-            $url .= $this->currentScheme() . $this->currentHost();
+            $url .= $this->currentScheme().$this->currentHost();
             $port = $this->currentPort();
             if (!in_array($port, [ false, 80])) {
-                $url .= ':' . $port;
+                $url .= ':'.$port;
             }
             $url .= $this->currentPath();
             if ($includeQuery) {
                 $query = $this->currentQuery();
                 if ($query) {
-                    $url .= '?' . $query;
+                    $url .= '?'.$query;
                 }
             }
         }
@@ -337,7 +356,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return string|null The current requests query string to null if not set
      */
-    public function currentQuery() {
+    public function currentQuery()
+    {
         return $this->serverVar('QUERY_STRING');
     }
 
@@ -346,8 +366,9 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return string
      */
-    public function currentScheme() {
-        return 'http' . (String::create($this->serverVar('HTTPS'))->toBool() ? 's' : '') . '://';
+    public function currentScheme()
+    {
+        return 'http'.(String::create($this->serverVar('HTTPS'))->toBool() ? 's' : '').'://';
     }
 
     /**
@@ -355,7 +376,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return string
      */
-    public function currentHost() {
+    public function currentHost()
+    {
         return $this->serverVar('HTTP_HOST');
     }
 
@@ -364,7 +386,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return string
      */
-    public function currentPort() {
+    public function currentPort()
+    {
         return $this->serverVar('SERVER_PORT');
     }
 
@@ -373,7 +396,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return string
      */
-    public function currentPath() {
+    public function currentPath()
+    {
         $requestURI = $this->serverVar('REQUEST_URI');
         $sciptName  = $this->serverVar('SCRIPT_NAME');
         return rtrim(parse_url($requestURI? : $sciptName, PHP_URL_PATH), '/');
@@ -393,10 +417,11 @@ class Url extends Scalar implements \ArrayAccess {
      * @link http://php.net/manual/en/function.file-get-contents.php The internal method used to fetch the url conetents
      * @return type
      */
-    public function fetch($forwardCookie = true, $contextOptions = []) {
+    public function fetch($forwardCookie = true, $contextOptions = [])
+    {
         $cookie = $this->serverVar('HTTP_COOKIE');
         if ($forwardCookie && $cookie !== false) {
-            $cookie         = ['http' => ['header' => 'Cookie: ' . $cookie . "\r\n"]];
+            $cookie         = ['http' => ['header' => 'Cookie: '.$cookie."\r\n"]];
             $contextOptions = array_merge($cookie, $contextOptions);
         }
         $context = stream_context_create($contextOptions);
@@ -410,10 +435,12 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return \GDM\Framework\Types\Url
      */
-    function tidy() {
+    function tidy()
+    {
         $regFind    = ['/\s/', '/[^a-zA-Z0-9_\- ]/', '/_+/'];
         $regReplace = ['_', '', '_'];
-        array_walk($this->pathSegments, function(&$val) use ($regFind, $regReplace) {
+        array_walk($this->pathSegments,
+                   function(&$val) use ($regFind, $regReplace) {
             $val = preg_replace($regFind, $regReplace, str_replace('&', 'and', trim($val)));
         });
         return $this;
@@ -424,10 +451,11 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return string The resulting URL as a string
      */
-    public function toString() {
+    public function toString()
+    {
         $result = "";
         if ($this->scheme) {
-            $result .= $this->scheme . '://';
+            $result .= $this->scheme.'://';
         }
         if ($this->user) {
             $result .= $this->user;
@@ -440,16 +468,16 @@ class Url extends Scalar implements \ArrayAccess {
             $result .= $this->host;
         }
         if ($this->port) {
-            $result .= ':' . $this->port;
+            $result .= ':'.$this->port;
         }
         if ($this->pathSegments) {
-            $result .= '/' . implode('/', $this->pathSegments);
+            $result .= '/'.implode('/', $this->pathSegments);
         }
         if ($this->parameters) {
-            $result .= '?' . http_build_query($this->parameters);
+            $result .= '?'.http_build_query($this->parameters);
         }
         if ($this->fragment) {
-            $result .= '#' . $this->fragment;
+            $result .= '#'.$this->fragment;
         }
         return $result;
     }
@@ -459,7 +487,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return String
      */
-    public function asString() {
+    public function asString()
+    {
 
         return String::create($this);
     }
@@ -469,7 +498,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return bool True if this url starts with https
      */
-    public function isHttps() {
+    public function isHttps()
+    {
         return $this->asString()->startsWith("https://");
     }
 
@@ -478,7 +508,8 @@ class Url extends Scalar implements \ArrayAccess {
      *
      * @return bool true if this is a full URL
      */
-    public function isFullUrl() {
+    public function isFullUrl()
+    {
         return !empty($this->scheme);
     }
 
@@ -489,11 +520,11 @@ class Url extends Scalar implements \ArrayAccess {
      * @param type $key
      * @return array|null
      */
-    private function serverVar($key) {
+    private function serverVar($key)
+    {
         if (!$this->serverVars) {
             $this->serverVars = filter_input_array(INPUT_SERVER);
         }
         return isset($this->serverVars[$key]) ? $this->serverVars[$key] : null;
     }
-
 }

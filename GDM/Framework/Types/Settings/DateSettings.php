@@ -2,8 +2,8 @@
 
 namespace GDM\Framework\Types\Settings;
 
-class DateSettings {
-
+class DateSettings
+{
     /**
      *
      * @var \DateTimeZone
@@ -26,7 +26,8 @@ class DateSettings {
      * @link http://www.php.net/manual/en/class.datetimezone.php
      * @link http://www.php.net/manual/en/function.date.php
      */
-    public function __construct($timeZone = null, $dateFromat = null, $dateTimeFromat = null, $longDateFormat = null, $longDateTimeFormat = null) {
+    public function __construct($timeZone = null, $dateFromat = null, $dateTimeFromat = null, $longDateFormat = null, $longDateTimeFormat = null)
+    {
         $this->timeZone           = $timeZone? : DefaultDateSettings::$defaultTimeZone;
         $this->dateFromat         = $dateFromat? : DefaultDateSettings::$defaultDateFromat;
         $this->dateTimeFromat     = $dateTimeFromat? : DefaultDateSettings::$defaultDateTimeFromat;
@@ -51,7 +52,8 @@ class DateSettings {
      *
      * @return DateSettings
      */
-    public static function create($timeZone = null, $dateFromat = null, $dateTimeFromat = null, $longDateFormat = null, $longDateTimeFormat = null) {
+    public static function create($timeZone = null, $dateFromat = null, $dateTimeFromat = null, $longDateFormat = null, $longDateTimeFormat = null)
+    {
         return new self($timeZone, $dateFromat, $dateTimeFromat, $longDateFormat, $longDateTimeFormat);
     }
 
@@ -59,19 +61,23 @@ class DateSettings {
      *
      * @return \DateTimeZone
      */
-    public function getTimeZone() {
+    public function getTimeZone()
+    {
         return $this->timeZone;
     }
 
-    public function getDateTimeFromat() {
+    public function getDateTimeFromat()
+    {
         return $this->dateTimeFromat;
     }
 
-    public function getLongDateFormat() {
+    public function getLongDateFormat()
+    {
         return $this->longDateFormat;
     }
 
-    public function getLongDateTimeFormat() {
+    public function getLongDateTimeFormat()
+    {
         return $this->longDateTimeFormat;
     }
 
@@ -80,7 +86,8 @@ class DateSettings {
      * @param \DateTimeZone|string $timeZone <p>Set the time zone, Can be a string name of a time zone or \DateTimeZone instace</p>
      * @return \GDM\Framework\Types\Settings\DateSettings
      */
-    public function setTimeZone($timeZone) {
+    public function setTimeZone($timeZone)
+    {
         if (is_string($timeZone)) {
             $timeZone = new \DateTimeZone($this->timeZone);
         }
@@ -93,7 +100,8 @@ class DateSettings {
      * @param string $dateFromat <p>Set the string date format accepted by date() for short dates eg d/m/y.</p>
      * @return \GDM\Framework\Types\Settings\DateSettings
      */
-    public function setDateFromat($dateFromat) {
+    public function setDateFromat($dateFromat)
+    {
         $this->dateFromat = $dateFromat;
         return $this;
     }
@@ -103,7 +111,8 @@ class DateSettings {
      * @param type $dateTimeFromat <p>String date format accepted by date() for short date time eg d/m/y H:i.</p>
      * @return \GDM\Framework\Types\Settings\DateSettings
      */
-    public function setDateTimeFromat($dateTimeFromat) {
+    public function setDateTimeFromat($dateTimeFromat)
+    {
         $this->dateTimeFromat = $dateTimeFromat;
         return $this;
     }
@@ -113,7 +122,8 @@ class DateSettings {
      * @param type $longDateFormat <p>String date format accepted by date() for short date time eg l jS \of F Y.</p>
      * @return \GDM\Framework\Types\Settings\DateSettings
      */
-    public function setLongDateFormat($longDateFormat) {
+    public function setLongDateFormat($longDateFormat)
+    {
         $this->longDateFormat = $longDateFormat;
         return $this;
     }
@@ -123,9 +133,9 @@ class DateSettings {
      * @param type $longDateTimeFormat <p>String date format accepted by date() for short date time eg l jS \of F Y h:i:s A.</p>
      * @return \GDM\Framework\Types\Settings\DateSettings
      */
-    public function setLongDateTimeFormat($longDateTimeFormat) {
+    public function setLongDateTimeFormat($longDateTimeFormat)
+    {
         $this->longDateTimeFormat = $longDateTimeFormat;
         return $this;
     }
-
 }

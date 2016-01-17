@@ -2,48 +2,53 @@
 
 namespace GDM\Framework\Types;
 
-abstract class Scalar extends Type implements Interfaces\ConvertibleInterface {
-
+abstract class Scalar extends Type implements Interfaces\ConvertibleInterface
+{
     protected $orignalValue;
     protected $returnValue;
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->toString();
     }
 
     /**
      * @return boolean
      */
-    public function toBoolean() {
+    public function toBoolean()
+    {
         return (bool) $this->get();
     }
 
     /**
      * @return number
      */
-    public function toInteger() {
+    public function toInteger()
+    {
         return (integer) $this->get();
     }
 
     /**
      * @return number
      */
-    public function toDouble() {
+    public function toDouble()
+    {
         return (double) $this->get();
     }
 
     /**
      * @return string
      */
-    public function toString() {
+    public function toString()
+    {
         return (string) $this->get();
     }
 
     /**
      * @return array
      */
-    public function toArray() {
+    public function toArray()
+    {
         return (array) $this->get();
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace GDM\Framework\Types\Settings;
 
-class DefaultDateSettings {
-
+class DefaultDateSettings
+{
     public static $defaultTimeZone           = "Pacific/Auckland";
     public static $defaultDateFromat         = 'd/m/Y';
     public static $defaultDateTimeFromat     = 'd/m/Y H:i';

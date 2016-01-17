@@ -6,7 +6,8 @@ namespace GDM\Framework\Types;
  *
  * @author Corey Sewell <corey@gdmedia.tv>
  */
-abstract class Type {
+abstract class Type
+{
 
     /**
      *
@@ -16,7 +17,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @return static
      */
-    static function create($value = null) {
+    static function create($value = null)
+    {
         return new static($value);
     }
 
@@ -27,7 +29,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    public function __construct($value = null) {
+    public function __construct($value = null)
+    {
         $this->set($value);
     }
 
@@ -38,7 +41,8 @@ abstract class Type {
      * @api
      * @return static
      */
-    final public function set($value) {
+    final public function set($value)
+    {
         $isValid = false;
 
         if ($value === null) {
@@ -62,7 +66,7 @@ abstract class Type {
 
         if (!$isValid) {
             throw new \UnexpectedValueException(sprintf(
-                    'The value of type "%s" could not be converted to "%s".', gettype($value), get_called_class()
+                'The value of type "%s" could not be converted to "%s".', gettype($value), get_called_class()
             ));
         }
         return $this;
@@ -75,7 +79,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    protected function fromString($value) {
+    protected function fromString($value)
+    {
         return false;
     }
 
@@ -86,7 +91,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    protected function fromObject($value) {
+    protected function fromObject($value)
+    {
         return false;
     }
 
@@ -97,7 +103,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    protected function fromBool($value) {
+    protected function fromBool($value)
+    {
         return false;
     }
 
@@ -108,7 +115,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    protected function fromInt($value) {
+    protected function fromInt($value)
+    {
         return false;
     }
 
@@ -119,7 +127,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    protected function fromDouble($value) {
+    protected function fromDouble($value)
+    {
         return false;
     }
 
@@ -130,7 +139,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    protected function fromArray($value) {
+    protected function fromArray($value)
+    {
         return false;
     }
 
@@ -141,7 +151,8 @@ abstract class Type {
      * @codeCoverageIgnore
      * @api
      */
-    protected function fromResource($value) {
+    protected function fromResource($value)
+    {
         return false;
     }
 

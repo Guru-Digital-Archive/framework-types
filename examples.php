@@ -1,8 +1,8 @@
 <?php
-
 require './vendor/autoload.php';
 
-function stringExample() {
+function stringExample()
+{
     $string = "Here is a string that we will use for some examples        ";
 
 // Implements __toString, so object instances can be used as plain old strings
@@ -21,17 +21,22 @@ function stringExample() {
     echo "<br/>";
 }
 
-function dateExample() {
+function dateExample()
+{
     $date = "01/01/2014 14:35";
 
 // Set global defaults
-    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultTimeZone = 'Pacific/Auckland';
-    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultDateFromat = 'd/m/Y';
-    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultDateTimeFromat = 'd/m/Y H:i';
-    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultLongDateFormat = 'l jS \of F Y';
+    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultTimeZone           = 'Pacific/Auckland';
+    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultDateFromat         = 'd/m/Y';
+    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultDateTimeFromat     = 'd/m/Y H:i';
+    \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultLongDateFormat     = 'l jS \of F Y';
     \GDM\Framework\Types\Settings\DefaultDateSettings::$defaultLongDateTimeFormat = 'l jS \of F Y h:i:s A';
     // Or pass a settings object in
-    $settings = GDM\Framework\Types\Settings\DateSettings::create('Pacific/Auckland', 'd/m/Y', 'd/m/Y H:i', 'l jS \of F Y', 'l jS \of F Y', 'l jS \of F Y h:i:s A');
+    $settings                                                                     = GDM\Framework\Types\Settings\DateSettings::create('Pacific/Auckland',
+                                                                                                                                      'd/m/Y', 'd/m/Y H:i',
+                                                                                                                                      'l jS \of F Y',
+                                                                                                                                      'l jS \of F Y',
+                                                                                                                                      'l jS \of F Y h:i:s A');
 
     // Implements __toString, so object instances can be used as plain old strings
     $echoMe = GDM\Framework\Types\Date::create($date, $settings);
@@ -47,7 +52,7 @@ function dateExample() {
     echo "<br/>";
 
     foreach (GDM\Framework\Types\Date::daysOfTheWeek() as $day) {
-        echo $day . "<br/>";
+        echo $day."<br/>";
     }// Outputs Monday
     //      Tuesday
     //      Wednesday
@@ -57,7 +62,8 @@ function dateExample() {
     //      Sunday
 }
 
-function urlExample() {
+function urlExample()
+{
     $urlString = "http://www.example.com/path/to/file?foo=bar";
 
     // Implements __toString, so object instances can be used as plain old strings
@@ -80,7 +86,6 @@ function urlExample() {
     echo $echoMe; // Outputs "http://www.example.com/path/to/file/somewhere?foo=bar&bar=some-new-value";
     echo "<br/>";
 }
-
 stringExample();
 dateExample();
 urlExample();
