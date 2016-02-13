@@ -5,7 +5,7 @@ namespace GDM\Framework\Types;
 /**
  * Helper class for manipulatring URLs
  * ----
- * @author Corey Sewell <corey@gdmedia.tv>
+ * @author Corey Sewell <corey@gurudigital.nz>
  */
 class Url extends Scalar implements \ArrayAccess
 {

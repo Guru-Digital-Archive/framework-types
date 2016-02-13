@@ -4,7 +4,7 @@ namespace GDM\Framework\Types;
 
 /**
  *
- * @author Corey Sewell <corey@gdmedia.tv>
+ * @author Corey Sewell <corey@gurudigital.nz>
  */
 abstract class Type
 {

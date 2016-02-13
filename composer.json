@@ -2,12 +2,14 @@
     "name": "gdm/framework-types",
     "description": "GDM Framework - Types",
     "homepage": "https://github.com/guru-digital/framework-types/",
-    "keywords": ["types"],
+    "keywords": [
+        "types"
+    ],
     "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Corey Sewell - Guru Digital Media",
-            "email": "corey@gdmedia.tv"
+            "email": "corey@gurudigital.nz"
         }
     ],
     "support": {

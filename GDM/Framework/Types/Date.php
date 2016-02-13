@@ -17,6 +17,7 @@ class Date extends \DateTime implements Interfaces\ConvertibleInterface
     /**
      *
      * @param type $time [optional] <p>A date/time string. Valid formats are explained in Date and Time Formats.<br>
+     * Or a DateTime instance
      * Enter NULL here to obtain the current time when using the $timezone parameter.</p>
      * @param Settings\DateSettings $settings [optional] <p>A DateSettings object representing the formats to use.
      *
@@ -27,6 +28,9 @@ class Date extends \DateTime implements Interfaces\ConvertibleInterface
      */
     public function __construct($time = "now", Settings\DateSettings $settings = null)
     {
+        if ($time instanceof \DateTime) {
+            $time = $time->format(self::ATOM);
+        }
         $this->settings = is_null($settings) ? new Settings\DateSettings() : $settings;
         parent::__construct($time, $this->settings->timeZone);
     }
@@ -135,6 +139,62 @@ class Date extends \DateTime implements Interfaces\ConvertibleInterface
     }
 
     /**
+     * Rounds the current time up to the nearest $step minute interval.
+     * E.g. if $step=15, time will be rounded up to 15/30/45/00 
+     * 
+     * @param int $step - The interval step to roung to
+     * @return \GDM\Framework\Types\Date
+     */
+    public function roundMinutes($step=15, $direction = null)
+    {
+
+        $function = "round";
+        if ($direction && preg_match("/.*up.*/i", $direction)) {
+            $function = "ceil";
+        } else if ($direction && preg_match("/.*down.*/i", $direction)) {
+            $function = "floor";
+        }
+        $stepSeconds    = $step * 60;
+        $nowSeconds     = $this->getTimestamp();
+        $roundedSeconds = $function($nowSeconds / ($stepSeconds)) * ($stepSeconds);
+        $this->setTimestamp($roundedSeconds);
+        return $this;
+    }
+
+    /**
+     * Rounds the current time up to the next $step minute interval.
+     * E.g. if $step=15, time will be rounded up to 15/30/45/00 
+     * 
+     * @param int $step - The interval step to roung to
+     * @return \GDM\Framework\Types\Date
+     */
+    public function roundMinutesUp($step = 15)
+    {
+//        $secondsStep = $step * 60;
+//        $now         = $this->getTimestamp();
+//        $diff        = $now % ($secondsStep);
+//        $this->setTimestamp($now + ($secondsStep - $diff));
+        return $this->roundMinutes($step, "up");
+    }
+
+    /**
+     * Rounds the current time down to the next $step minute interval.
+     * E.g. if $step=15, time will be rounded up to 15/30/45/00 
+     * 
+     * @param int $step - The interval step to roung to
+     * @return \GDM\Framework\Types\Date
+     */
+    public function roundMinutesDown($step = 15)
+    {
+//        $secondsStep = $step * 60;
+//        $now         = $this->getTimestamp();
+//        $diff        = $now % ($secondsStep);
+//        $this->setTimestamp($now - ($secondsStep - $diff));
+//        return $this;
+        return $this->roundMinutes($step, "down");
+    }
+
+    /**
      * Create an instance from a short date or short date time formatted string
      *
      * @param string $date <p>Date to create instance from</p>
@@ -237,6 +297,7 @@ class Date extends \DateTime implements Interfaces\ConvertibleInterface
      * Factory method to create an Date instance
      *
      * @param type $time [optional] <p>A date/time string. Valid formats are explained in Date and Time Formats.<br>
+     * Or a DateTime instance
      * Enter NULL here to obtain the current time when using the $timezone parameter.</p>
      * @param Settings\DateSettings $settings [optional] <p>A DateSettings object representing the formats to use.
      *
@@ -247,7 +308,7 @@ class Date extends \DateTime implements Interfaces\ConvertibleInterface
      */
     static function create($time = "now", Settings\DateSettings $settings = null)
     {
-        return new Date($time, $settings);
+        return new self($time, $settings);
     }
 
     /**
