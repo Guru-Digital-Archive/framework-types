@@ -18,7 +18,6 @@ class ArrayWrapper extends Scalar implements \ArrayAccess, \Countable, \Iterator
      */
     public function trim($character_mask = " \t\n\r\0\x0B")
     {
-        trim($str);
         array_walk($this->returnValue, function(&$val) use($character_mask) {
             $val = trim($character_mask);
         });
