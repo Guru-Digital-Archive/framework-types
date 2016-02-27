@@ -6,16 +6,53 @@ class ArrayWrapper extends Scalar implements \ArrayAccess, \Countable, \Iterator
 {
 
     /**
-     * Trimes each element of this array
-     *
-     * @return \GDM\Framework\Types\ArrayWrapper
+     * Strip whitespace (or other characters) from the beginning and end of each in the list string
+     * see http://php.net/manual/en/function.trim.php
+     * @param string $character_mask [optional] <p>
+     * Optionally, the stripped characters can also be specified using
+     * the <i>character_mask</i> parameter.
+     * Simply list all characters that you want to be stripped. With
+     * .. you can specify a range of characters.
+     * </p>
+     * @return \GDM\Framework\Types\ArrayWrapper  The ArrayWrapper will all items trimmed.
      */
-    public function trim()
+    public function trim($character_mask = " \t\n\r\0\x0B")
     {
-        array_walk($this->returnValue, function(&$val) {
-            $val = trim($val);
+        trim($str);
+        array_walk($this->returnValue, function(&$val) use($character_mask) {
+            $val = trim($character_mask);
         });
 
+        return $this;
+    }
+
+    /**
+     * Filters the ArrayWrapper items using a callback function
+     * see http://php.net/manual/en/function.array-filter.php
+     * @param callable $callback [optional] <p>
+     * The callback function to use
+     * </p>
+     * <p>
+     * If no <i>callback</i> is supplied, all entries of
+     * <i>array</i> equal to <b>FALSE</b> (see
+     * converting to
+     * boolean) will be removed.
+     * </p>
+     * @param int $flag [optional] <p>
+     * Flag determining what arguments are sent to <i>callback</i>:
+     * <b>ARRAY_FILTER_USE_KEY</b> - pass key as the only argument
+     * to <i>callback</i> instead of the value
+     * @return \GDM\Framework\Types\ArrayWrapper
+     */
+    public function filter(callable $callback = null, $flag = 0)
+    {
+        if ($callback && $flag) {
+            $this->returnValue = array_filter($this->returnValue, $callback, $flag);
+        } else if ($callback) {
+            $this->returnValue = array_filter($this->returnValue, $callback);
+        } else {
+            $this->returnValue = array_filter($this->returnValue);
+        }
         return $this;
     }
 
